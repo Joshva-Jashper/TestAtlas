@@ -1,6 +1,6 @@
 # Phase 1 — Scope and setup
 
-**Status:** Proposed baseline for step-by-step review
+**Status:** Approved baseline for implementation
 **Date:** 2026-11-25
 
 ## Product requirement
@@ -80,7 +80,7 @@ When detection finds an unsupported build system, absent runtime, unavailable se
 - [x] Select a public fixture with documented setup metadata.
 - [x] Record supported-profile boundaries and no-guarantee language.
 - [x] Set sandbox and credential-isolation requirements.
-- [ ] Review and approve this scope before starting the foundation/runner implementation.
+- [x] Review and approve this scope before starting the foundation/runner implementation.
 - [ ] Perform the fixture preflight in an isolated runner once the runner exists; verify automatic detection of Node version, `npm install`, start command, and port/health check.
 
 ## Reference links

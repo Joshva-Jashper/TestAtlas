@@ -19,9 +19,34 @@ The downloadable artifact is the generated test suite and its runner configurati
 
 Python-first platform: FastAPI, PydanticAI, pytest, Playwright for Python, PostgreSQL, Redis-backed background jobs, object storage for evidence, and disposable isolated test-runner containers.
 
+## Local development
+
+Use Python 3.12 and `uv`. From the repository root:
+
+```bash
+uv sync --extra dev
+uv run uvicorn testatlas.main:app --reload
+```
+
+The current metadata-only endpoint is `POST /api/v1/repositories/inspect`. Example body:
+
+```json
+{"repository_url":"https://github.com/saucelabs/sample-app-web"}
+```
+
+Run the same core checks used by CI with:
+
+```bash
+uv run ruff format --check .
+uv run ruff check .
+uv run pytest --cov=testatlas --cov-report=term-missing --cov-fail-under=95 -q
+```
+
 ## Current milestone
 
-Phase 1 is defining a repo-link-only workflow and validating the setup/discovery assumptions with a public fixture. See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md).
+The current implementation is a safe repository-intake foundation: a typed FastAPI endpoint validates a GitHub repository URL and retrieves public repository metadata from GitHub's fixed API origin. It does not clone repositories, infer setup, or execute repository code. This slice has automated tests and a CI workflow; the next step is evidence-based setup inference, still without code execution in the API process.
+
+See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md) and [implementation TODO](TODO.md).
 
 ## Important boundary
 
