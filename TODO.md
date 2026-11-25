@@ -20,7 +20,9 @@ Status follows repository evidence, not intention. Complete items only when the 
 
 ## 3. Secure run orchestration
 
-- [ ] The API server and orchestrator never execute repository-defined commands or scripts directly.
+- [x] The API inspection path and disabled runner placeholder never execute repository-defined commands; no run orchestrator exists yet.
+- [ ] A future orchestrator dispatches untrusted commands only through the isolated backend and never executes them in the API/worker process.
+- [x] A backend-neutral runner contract constrains immutable run identity, supported argv/provenance, security-policy settings, resource limits, and bounded result artifacts; its default runner fails closed.
 - [ ] Repository execution uses a disposable isolated runner with explicit CPU, memory, disk, process, wall-clock, and network-egress controls.
 - [ ] GitHub checkout credentials are short-lived, read-only, removed before dependency installation and test execution, and never passed to the app under test.
 - [ ] AI provider credentials remain in the trusted service and are never mounted into the repository sandbox.
@@ -62,6 +64,7 @@ Status follows repository evidence, not intention. Complete items only when the 
 - [x] Phase 1 scope: repo-link-only input, optional fallbacks, public Sauce Labs fixture, security boundaries, and acceptance criteria documented.
 - [x] Safe repository-intake slice: typed FastAPI app, strict GitHub URL parser, fixed-origin public metadata client, and `POST /api/v1/repositories/inspect`; no clone or code execution.
 - [x] Commit-pinned bounded setup inspection and deterministic Node/npm/Vite inference; the live public Sauce fixture returned a ready static plan at the recorded SHA in [fixture evidence](docs/fixture-setup-evidence.md).
-- [x] Verification: 49 unit/API tests pass, Ruff format/lint pass, locked dependency resolution succeeds, and total coverage is 95.95% against the 95% CI gate.
-- [ ] Remaining foundation: private-repository authorization, persistence, run lifecycle/queue, and a separately reviewed secure runner contract.
+- [x] Backend-neutral sandbox contract and threat model: strict initial-profile argv, immutable commit, bounded policy/result schemas, and a fail-closed placeholder; no Docker executor is configured.
+- [x] Verification: 65 unit/API/contract tests pass, Ruff and locked dependency checks pass, and total coverage is 97.15% against the 95% CI gate.
+- [ ] Remaining foundation: private-repository authorization, persistence, run lifecycle/queue, and an independently reviewed isolated execution backend.
 - [ ] Fixture preflight: deferred until an isolated runner is available; no repository-defined scripts have been run in the API process or this sandbox.

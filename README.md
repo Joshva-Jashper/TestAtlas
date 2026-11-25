@@ -46,9 +46,9 @@ uv run pytest --cov=testatlas --cov-report=term-missing --cov-fail-under=95 -q
 
 The current endpoint validates a GitHub repository URL, reads public repository metadata from GitHub's fixed API origin, resolves the default branch to a commit SHA, and reads only bounded root setup files at that commit. For the initial Node/npm/Vite profile it returns an evidence-backed static plan, including runtime version, lockfile-based install strategy, declared build/start scripts, and a statically detected Vite port. Unsupported or ambiguous cases return blockers for review.
 
-This is not a preflight: no repository is cloned, no dependency is installed, no configuration or script is evaluated, and no repository code is executed. Private-repository authorization, isolated execution, generated tests, results, evidence capture, and the dashboard are not implemented yet. The public Sauce Labs fixture's current inspected SHA and evidence are recorded in [fixture setup evidence](docs/fixture-setup-evidence.md).
+This is not a preflight: no repository is cloned, no dependency is installed, no configuration or script is evaluated, and no repository code is executed. A backend-neutral, fail-closed runner request/result contract and security threat model are now documented, but there is no Docker executor and execution remains disabled. Private-repository authorization, run persistence/orchestration, generated tests, runtime results/evidence capture, and the dashboard are not implemented yet. See the [runner threat model and enablement gates](docs/runner-threat-model.md) and the [fixture setup evidence](docs/fixture-setup-evidence.md).
 
-See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md), [fixture setup evidence](docs/fixture-setup-evidence.md), and [implementation TODO](TODO.md).
+See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md), [runner threat model](docs/runner-threat-model.md), [fixture setup evidence](docs/fixture-setup-evidence.md), and [implementation TODO](TODO.md).
 
 ## Important boundary
 
