@@ -27,6 +27,7 @@ def create_app(
         )
         app.state.github_http_client = http_client
         app.state.github_metadata_client = GitHubMetadataClient(http_client)
+        app.state.github_total_timeout_seconds = app_settings.github_total_timeout_seconds
         try:
             yield
         finally:

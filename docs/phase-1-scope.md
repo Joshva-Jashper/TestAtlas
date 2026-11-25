@@ -34,7 +34,7 @@ Use the official Sauce Labs sample web application as the first external fixture
 
 - Repository: <https://github.com/saucelabs/sample-app-web>
 - License: MIT (as shown on the repository page).
-- The repository README documents Node.js 24.9 or newer, dependency installation with `npm install`, and starting the Vite development server with `npm run start` at `http://localhost:3000/`.
+- The repository includes an exact `.nvmrc` pin of Node 24.9.0, a root npm lockfile, a `start` script of `vite`, and a Vite server port of 3000. Its README also documents Node.js 24.9 or newer, `npm install`, and `npm run start`. At the inspected commit, TestAtlas selects the reproducible `npm ci` command from the lockfile. See the [commit-pinned setup evidence](fixture-setup-evidence.md).
 - The repo includes runtime metadata (`.nvmrc`, `package.json`), a lockfile, a Dockerfile, app source, existing tests, and CI configuration. These files let us test repository-based setup inference instead of relying on a user-supplied command.
 - This is a JavaScript/React target app. That does not change TestAtlas’s Python-first platform stack; it intentionally tests that the platform can run browser tests against an app whose language differs from the platform’s language.
 
@@ -81,7 +81,7 @@ When detection finds an unsupported build system, absent runtime, unavailable se
 - [x] Record supported-profile boundaries and no-guarantee language.
 - [x] Set sandbox and credential-isolation requirements.
 - [x] Review and approve this scope before starting the foundation/runner implementation.
-- [ ] Perform the fixture preflight in an isolated runner once the runner exists; verify automatic detection of Node version, `npm install`, start command, and port/health check.
+- [ ] Perform the fixture preflight in an isolated runner once the runner exists; verify the commit-pinned plan's Node 24.9.0, lockfile-based `npm ci`, start command, and port. Confirm the low-confidence `/` health-check assumption against a running app.
 
 ## Reference links
 

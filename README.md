@@ -1,6 +1,6 @@
 # TestAtlas
 
-**AI-assisted testing for GitHub repositories.** Give TestAtlas a repository link; it discovers how the app is built, attempts to start it in an isolated environment, maps testable modules, generates tests, runs them, and reports failures with evidence.
+**AI-assisted testing for GitHub repositories.** The product goal is to accept a repository link, discover and test supported applications, and report failures with evidence. The current implementation is limited to safe repository inspection and static setup inference; execution, test generation, and the dashboard are future milestones.
 
 ## Product promise
 
@@ -28,7 +28,7 @@ uv sync --extra dev
 uv run uvicorn testatlas.main:app --reload
 ```
 
-The current metadata-only endpoint is `POST /api/v1/repositories/inspect`. Example body:
+The current inspection endpoint is `POST /api/v1/repositories/inspect`. Example body:
 
 ```json
 {"repository_url":"https://github.com/saucelabs/sample-app-web"}
@@ -44,9 +44,11 @@ uv run pytest --cov=testatlas --cov-report=term-missing --cov-fail-under=95 -q
 
 ## Current milestone
 
-The current implementation is a safe repository-intake foundation: a typed FastAPI endpoint validates a GitHub repository URL and retrieves public repository metadata from GitHub's fixed API origin. It does not clone repositories, infer setup, or execute repository code. This slice has automated tests and a CI workflow; the next step is evidence-based setup inference, still without code execution in the API process.
+The current endpoint validates a GitHub repository URL, reads public repository metadata from GitHub's fixed API origin, resolves the default branch to a commit SHA, and reads only bounded root setup files at that commit. For the initial Node/npm/Vite profile it returns an evidence-backed static plan, including runtime version, lockfile-based install strategy, declared build/start scripts, and a statically detected Vite port. Unsupported or ambiguous cases return blockers for review.
 
-See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md) and [implementation TODO](TODO.md).
+This is not a preflight: no repository is cloned, no dependency is installed, no configuration or script is evaluated, and no repository code is executed. Private-repository authorization, isolated execution, generated tests, results, evidence capture, and the dashboard are not implemented yet. The public Sauce Labs fixture's current inspected SHA and evidence are recorded in [fixture setup evidence](docs/fixture-setup-evidence.md).
+
+See [Phase 1 scope and acceptance criteria](docs/phase-1-scope.md), [fixture setup evidence](docs/fixture-setup-evidence.md), and [implementation TODO](TODO.md).
 
 ## Important boundary
 

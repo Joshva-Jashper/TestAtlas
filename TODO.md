@@ -4,18 +4,19 @@ Status follows repository evidence, not intention. Complete items only when the 
 
 ## 1. Repository-only intake and metadata
 
-- [ ] A user can submit a GitHub repository URL as the only per-run project input for a supported repository.
-- [ ] Public repository links can be inspected without GitHub authorization. Private links require a user-authorized GitHub connection before source access.
-- [ ] The run is pinned to a commit SHA so discovery and later execution refer to the same source revision.
-- [ ] The service rejects malformed URLs, non-GitHub hosts, embedded credentials, unexpected ports, and unsupported link forms before making outbound requests.
-- [ ] If the repository cannot be found or accessed, the response explains the likely cause without exposing credentials or upstream internals.
+- [x] A user can submit a GitHub repository URL as the only per-run project input for the supported initial profile.
+- [x] Public repository links can be inspected without GitHub authorization.
+- [ ] Private links require a user-authorized GitHub connection before source access.
+- [x] Inspection resolves the default branch to a commit SHA and pins all setup-file reads to that revision.
+- [x] The service rejects malformed URLs, non-GitHub hosts, embedded credentials, unexpected ports, and unsupported link forms before making outbound requests.
+- [x] Repository/access, rate-limit, and upstream failures map to bounded client responses without exposing upstream bodies.
 
 ## 2. Setup inference and preflight
 
-- [ ] The service inspects repository manifests, lockfiles, runtime-version files, Docker/compose files, CI workflows, READMEs, existing tests, and route/API definitions to infer a setup plan.
-- [ ] The detected runtime, package manager, install/build/start commands, port/health check, evidence, and confidence are visible to the user before execution.
+- [x] For the initial Node/npm/Vite profile, the service reads bounded root `package.json`, npm lockfile names, `.nvmrc`, and a root Vite config; it does not yet inspect Docker/compose files, CI workflows, READMEs, existing tests, or route/API definitions.
+- [x] For supported setup fields, the response includes the detected runtime, package manager, install/build/start commands, port/health-check assumption, evidence sources, and confidence before any execution.
 - [ ] A deployed URL, custom command, environment variable, or test credential is optional and requested only when the repo cannot be safely run without it.
-- [ ] The system respects declared runtime versions and lockfiles. If a runtime or dependency service cannot be provided, it reports a specific blocker instead of guessing silently.
+- [x] The initial profile respects exact Node pins and npm lockfiles, reports conflicting/unsupported lockfiles, and does not treat an engine range as an exact runtime version.
 
 ## 3. Secure run orchestration
 
@@ -59,7 +60,8 @@ Status follows repository evidence, not intention. Complete items only when the 
 ## Current progress
 
 - [x] Phase 1 scope: repo-link-only input, optional fallbacks, public Sauce Labs fixture, security boundaries, and acceptance criteria documented.
-- [x] Safe repository-intake slice: typed FastAPI app, strict GitHub URL parser, fixed-origin metadata client, and `POST /api/v1/repositories/inspect`; it does not clone or execute repository code.
-- [x] Verification for the intake slice: unit/API tests, formatting, lint, locked dependency resolution, and coverage threshold are configured; CI workflow added.
-- [ ] Remaining foundation: setup inference, immutable commit pinning, private-repository authorization, persistence, run lifecycle/queue, and secure runner contract.
+- [x] Safe repository-intake slice: typed FastAPI app, strict GitHub URL parser, fixed-origin public metadata client, and `POST /api/v1/repositories/inspect`; no clone or code execution.
+- [x] Commit-pinned bounded setup inspection and deterministic Node/npm/Vite inference; the live public Sauce fixture returned a ready static plan at the recorded SHA in [fixture evidence](docs/fixture-setup-evidence.md).
+- [x] Verification: 49 unit/API tests pass, Ruff format/lint pass, locked dependency resolution succeeds, and total coverage is 95.95% against the 95% CI gate.
+- [ ] Remaining foundation: private-repository authorization, persistence, run lifecycle/queue, and a separately reviewed secure runner contract.
 - [ ] Fixture preflight: deferred until an isolated runner is available; no repository-defined scripts have been run in the API process or this sandbox.

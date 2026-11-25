@@ -30,6 +30,7 @@ def test_parse_valid_repository_urls(url: str, expected: str) -> None:
         "https://user:password@github.com/owner/repo",
         "https://github.com:8443/owner/repo",
         "https://github.com:/owner/repo",
+        "https://github.com:notaport/owner/repo",
         "https://github.com/owner/repo?tab=readme",
         "https://github.com/owner/repo#readme",
         "https://github.com/owner/repo/tree/main",
